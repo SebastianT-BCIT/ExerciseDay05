@@ -21,6 +21,12 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserRoleRepository>();
 builder.Services.AddScoped<CustomerRepo>();
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+    options.Lockout.MaxFailedAccessAttempts = 3;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using WebSecurityDemo.Repositories;
 using WebSecurityDemo.ViewModels;
 
@@ -49,7 +50,8 @@ namespace WebSecurityDemo.Controllers
             return View(roleVM);
         }
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(string roleName)
         {
             if (string.IsNullOrWhiteSpace(roleName))

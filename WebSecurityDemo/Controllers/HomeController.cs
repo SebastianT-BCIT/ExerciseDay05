@@ -22,6 +22,8 @@ namespace WebSecurityDemo.Controllers
         }
 
         // GET delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
         public IActionResult DeleteCustomer(int customerId)
         {
