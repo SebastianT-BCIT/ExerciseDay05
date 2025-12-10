@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebSecurityDemo.ViewModels.UserVM>
+
+@{
+    ViewData["Title"] = "User Roles";
+}
+
+<div class="row mt-5">
+    <div class="col-md-6">
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">User Roles</h5>
+                <a asp-action="Create" class="btn btn-light btn-sm fw-semibold">+ New User Role</a>
+            </div>
+
+            <div class="card-body p-0">
+                <table class="table table-striped mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-3">Email</th>
+                            <th class="text-end pe-3">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-3 fw-semibold">@item.Email</td>
+
+                                <td class="text-end pe-3">
+                                    @Html.ActionLink(
+                                    "View Roles",
+                                        "Detail",
+                                        new { userName = item.Email },
+                                        new { @class = "btn btn-sm btn-outline-primary px-3" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

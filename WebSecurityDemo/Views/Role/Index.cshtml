@@ -1,0 +1,33 @@
+﻿<div class="row mt-5">
+    <div class="col-md-4">
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Roles</h5>
+            </div>
+
+            <div class="card-body p-0">
+                <table class="table table-striped mb-0 align-middle">
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold ps-3">
+                                    @item.RoleName
+                                </td>
+                                <td class="text-end pe-3">
+                                    @Html.ActionLink(
+                                        "Delete",
+                                        "Delete",
+                                        new { roleName = item.RoleName },
+                                        new { @class = "btn btn-sm btn-outline-danger px-3" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

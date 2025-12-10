@@ -1,0 +1,95 @@
+﻿@model IEnumerable<WebSecurityDemo.Models.Customer>
+
+@{
+    ViewData["Title"] = "Customer Dashboard";
+}
+
+<div class="container mt-4">
+
+    <div class="text-center mb-4">
+        <h1 class="display-5">Customer Dashboard</h1>
+        <p class="text-muted">
+            Demo page for <strong>CSRF</strong>, <strong>anti-forgery tokens</strong>,
+            and <strong>lockout</strong> features.
+        </p>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(ViewBag.Message as string))
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            @ViewBag.Message
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row g-4">
+        @foreach (var customer in Model)
+        {
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-header bg-primary text-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-semibold">
+                                @customer.FullName
+                            </span>
+                            <span class="badge bg-light text-primary">
+                                ID: @customer.CustomerId
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="mb-1">
+                            <i class="bi bi-envelope"></i>
+                            <span class="fw-semibold">Email:</span>
+                            @customer.Email
+                        </p>
+                        @if (!string.IsNullOrWhiteSpace(customer.PhoneNumber))
+                        {
+                            <p class="mb-1">
+                                <i class="bi bi-telephone"></i>
+                                <span class="fw-semibold">Phone:</span>
+                                @customer.PhoneNumber
+                            </p>
+                        }
+                        <p class="text-muted small mb-0">
+                            Joined: @customer.CreatedDate.ToLocalTime().ToString("yyyy-MMM-dd")
+                        </p>
+                    </div>
+
+                    <div class="card-footer bg-white border-0 pt-0 pb-3">
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-outline-secondary btn-sm" disabled>
+                                <i class="bi bi-pencil-square"></i> Edit (demo)
+                            </button>
+
+                            @if (User.IsInRole("Manager"))
+                            {
+                                <!-- Intentionally vulnerable GET delete link -->
+                                <a asp-action="DeleteCustomer"
+                                   asp-route-customerId="@customer.CustomerId"
+                                   class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash"></i> Delete
+                                </a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-outline-danger btn-sm" disabled
+                                        title="Only Managers can delete customers">
+                                    <i class="bi bi-lock"></i> Delete
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning mt-4">
+            No customers found. Seed data may not have been applied yet.
+        </div>
+    }
+</div>
